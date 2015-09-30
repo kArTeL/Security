@@ -1,4 +1,5 @@
 var http = require('http');
+var tokenGenerator = require('./Tokengenerator.js');
 
 function parseCookies (request) {
     var list = {},
@@ -12,7 +13,6 @@ function parseCookies (request) {
     return list;
 }
 
-
 http.createServer(function (request, response) {
 
   // To Read a Cookie
@@ -23,7 +23,11 @@ http.createServer(function (request, response) {
     'Set-Cookie': 'mycookie=test',
     'Content-Type': 'text/plain'
   });
-  response.end('Hello World\n');
-}).listen(8124);
+  //console.log(tokenGenerator)
+  var token = tokenGenerator.generateToken();
+  console.log(token)
+  response.end(token);
 
-console.log('Server running at http://127.0.0.1:8124/');
+}).listen(8080);
+
+console.log('Server running at http://127.0.0.1:8080/');
