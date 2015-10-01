@@ -1,11 +1,12 @@
 
 var url  = require('url');
+var qs = require('querystring');
 
 /** Helper Modules
 */
 var tokenGenerator = require('./Tokengenerator.js');
 var notFoundRouter = require('./NotFound.js');
-
+var login          = require('./Login.js');
 module.exports = {
   route : function(request, response) {
     //url parts
@@ -19,6 +20,11 @@ module.exports = {
       notFoundRouter.redirect(response);
     break;
     case '/login':
+      if (request.method == 'POST') {
+        login.login(request, response);
+      }else {
+          notFoundRouter.redirect(response);
+      }
       //sys.puts("display create");
     break;
     case '/edit':
