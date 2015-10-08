@@ -7,6 +7,8 @@ var url  = require('url');
 var tokenGenerator = require('./Tokengenerator.js');
 var notFoundRouter = require('./NotFound.js');
 var login          = require('./Login.js');
+var fruit          = require('./Fruits.js');
+
 module.exports = {
   route : function(request, response) {
     //url parts
@@ -27,8 +29,22 @@ module.exports = {
       }
       //sys.puts("display create");
     break;
-    case '/edit':
+    case '/fruits':
+      if (request.method == 'POST') {
+        fruit.getFruits(request,response);
+      }
+      else
+      {
+          notFoundRouter.redirect(response);
+      }
 
+    break;
+    case '/buyFruits':
+      if (request.method == 'POST') {
+        fruit.buyFruits(request, response);
+      }else {
+        notFoundRouter.redirect(response);
+      }
     break;
     default:
       notFoundRouter.redirect(response);

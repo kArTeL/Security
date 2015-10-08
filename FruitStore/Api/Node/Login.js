@@ -31,12 +31,18 @@ module.exports = {
 
            if (!err) {
              console.log("connection is not null we can use this");
-             loginUser(conn, json["username"], json["password"], function (error, token) {
+             loginUser(conn, json["username"], json["password"], function (error, credential) {
+               // end the connection
+               conn.end(function(err){
+                 console.log("error disconnecting the connection");
+                 console.log(err);
+               });
                //The user exist in data base so go ahead
                if (!error) {
                   //generar el uuid
+
                   response.writeHead(200, {"Content-Type": "application/json"});
-                  response.write(JSON.stringify({token:token}));
+                  response.write(JSON.stringify(credential));
                   response.end();
                } else {
                  response.writeHead(401, {"Content-Type": "application/json"});
@@ -49,18 +55,6 @@ module.exports = {
              console.log("is undefined");
            }
          });
-
-         //connection.query();
-         //generar el uuid
-         //crear una sesion para el usuario nuevo
-         //devolver el uuid generado
-
-
-         ///Call to the data base and create a session on the seccion table
-
-          // response.writeHead(200, {"Content-Type": "application/json"});
-          // response.write(JSON.stringify({token:'2321312'}));
-          // response.end();
        } else {
          permissionsDenied.redirect(response);
        }
@@ -90,7 +84,8 @@ function loginUser(conn, username, password, callback) {
                 null,
                 function(err, session) {
                   if(!err) {
-                    callback(null, token);
+                    var credential = {token:token, userId:user["id"]};
+                    callback(null, credential);
                   } else {
                     console.log(err);
                     callback({code: 500, message:"Internal server error"}, null);

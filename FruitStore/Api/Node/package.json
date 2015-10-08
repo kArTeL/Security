@@ -4,6 +4,7 @@
   "description": "User module, this contain all the api written on Nodejs",
   "main": "Login.js",
   "dependencies": {
+    "async": "^1.4.2",
     "mysql": "^2.9.0"
   },
   "devDependencies": {},

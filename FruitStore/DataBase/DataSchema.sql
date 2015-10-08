@@ -18,17 +18,19 @@ CREATE TABLE user  (
 CREATE TABLE fruit (
   id INT NOT NULL AUTO_INCREMENT,
   name  VARCHAR(22) NOT NULL,
+  cost FLOAT NOT NULL,
   quantity INT NOT NULL,
 
   PRIMARY KEY(id)
 
 );
 
-CREATE TABLE orderSale (
+CREATE TABLE transaction (
   id INT NOT NULL AUTO_INCREMENT,
-  sale_date DATE NOT NULL,
+  sale_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   user   INT NOT NULL REFERENCES user(id),
-  total_cost INT NOT NULL,
+  total_cost FLOAT DEFAULT 0.0,
+  creditCardNumber VARCHAR(20),
   PRIMARY KEY(id)
 );
 
@@ -36,23 +38,23 @@ CREATE TABLE sale (
   id       INT NOT NULL AUTO_INCREMENT,
   fruit    INT  NOT NULL REFERENCES fruit(id),
   quantity INT NOT NULL,
-  orderSale    INT  NOT NULL REFERENCES orderSale(id),
+  transaction    INT  NOT NULL REFERENCES transaction(id),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE orderPurshase (
-  id INT NOT NULL AUTO_INCREMENT,
-  purchase_date DATE NOT NULL,
-  user   INT NOT NULL REFERENCES user(id),
-  PRIMARY KEY(id)
-);
-CREATE TABLE purchase (
-  id INT NOT NULL AUTO_INCREMENT,
-  quantity INT NOT NULL,
-  fruit  INT  NOT NULL REFERENCES fruit(id),
-  orderPurshase INT  NOT NULL REFERENCES orderPurshase(id),
-  PRIMARY KEY(id)
-);
+-- CREATE TABLE orderPurshase (
+--   id INT NOT NULL AUTO_INCREMENT,
+--   purchase_date DATE NOT NULL,
+--   user   INT NOT NULL REFERENCES user(id),
+--   PRIMARY KEY(id)
+-- );
+-- CREATE TABLE purchase (
+--   id INT NOT NULL AUTO_INCREMENT,
+--   quantity INT NOT NULL,
+--   fruit  INT  NOT NULL REFERENCES fruit(id),
+--   orderPurshase INT  NOT NULL REFERENCES orderPurshase(id),
+--   PRIMARY KEY(id)
+-- );
 
 
 CREATE TABLE session (
