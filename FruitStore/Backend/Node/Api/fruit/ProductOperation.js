@@ -1,6 +1,6 @@
 
-var connection = require('./Connection.js');
-var sessionInvalid = require('./SessionValidator');
+var connection = require('../Connection.js');
+var sessionInvalid = require('../SessionValidator');
 var mysql = require('mysql');
 var async = require('async');
 

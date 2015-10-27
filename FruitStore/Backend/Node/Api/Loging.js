@@ -20,27 +20,30 @@ module.exports = {
            request.connection.destroy();
    });
    request.on('end', function () {
+
        var json  = JSON.parse(body);
+       console.log(json);
        ///Check if all parameters all filled
        var isValidJSON = validateJSON(json);
 
        if (isValidJSON) {
          //chequear si es un usuario valido en caso de ser un usuario valido
          connection.connection(function (err, conn) {
-           console.log("response is");
+           //console.log("response is");
 
            if (!err) {
              console.log("connection is not null we can use this");
              loginUser(conn, json["username"], json["password"], function (error, credential) {
                // end the connection
                conn.end(function(err){
-                 console.log("error disconnecting the connection");
-                 console.log(err);
+                //  console.log("error disconnecting the connection");
+                //  console.log(err);
                });
                //The user exist in data base so go ahead
                if (!error) {
                   //generar el uuid
-
+                  console.log("response:");
+                  console.log(JSON.stringify(credential));
                   response.writeHead(200, {"Content-Type": "application/json"});
                   response.write(JSON.stringify(credential));
                   response.end();
@@ -68,6 +71,7 @@ function loginUser(conn, username, password, callback) {
    conn.query("SELECT id FROM user WHERE username = "+ mysql.escape(username) + " and password = " + mysql.escape(password) ,
       null,
       function(err, results) {
+
         //there's not error
         if (!err) {
           //user  exist in data base
@@ -105,6 +109,7 @@ function loginUser(conn, username, password, callback) {
 }
 
 function validateJSON(json) {
+  console.log(json);
   var isValid = true;
   if (json == undefined) {
     isValid = false;
