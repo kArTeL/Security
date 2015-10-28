@@ -51,7 +51,7 @@ exports.index = function(req, res) {
 };
 
 function loginUser(conn, username, password, callback) {
-   conn.query("SELECT id FROM user WHERE username = "+ mysql.escape(username) + " and password = " + mysql.escape(password) ,
+   conn.query("SELECT * FROM user WHERE username = "+ mysql.escape(username) + " and password = " + mysql.escape(password) ,
       null,
       function(err, results) {
 
@@ -71,7 +71,7 @@ function loginUser(conn, username, password, callback) {
                 null,
                 function(err, session) {
                   if(!err) {
-                    var credential = {token:token, userId:user["id"]};
+                    var credential = {token:token, userId:user["id"], role:user["role"]};
                     callback(null, credential);
                   } else {
                     console.log(err);
