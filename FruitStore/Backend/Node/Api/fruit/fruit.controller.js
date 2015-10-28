@@ -12,7 +12,7 @@
   var connection = require('../Connection.js');
   var sessionValidator = require('../SessionValidator.js');
   var fruitBuyer = require('./ProductOperation.js');
-  
+
   // Get list of holes
   exports.index = function(req, res) {
         connection.connection(function (err, conn) {
@@ -36,7 +36,7 @@
                      }
                      else
                      {
-                       return res.status(500).send(JSON.stringify({code:500, message:"Internal server error (sure)"}));
+                       return res.status(500).send({code:500, message:"Internal server error (sure)"});
 
                      }
                  });
@@ -45,13 +45,13 @@
               }
               else
               {
-                return res.status(401).send(JSON.stringify({code:401, message:JSON.stringify(error)}));
+                return res.status(401).send(error);
 
               }
             });
           }
           else {
-             return res.status(500).send(JSON.stringify({code:500, message:"Internal server error (sure)"}));
+             return res.status(500).send({code:500, message:"Internal server error (sure)"});
           }
         });
   };
@@ -73,20 +73,20 @@ exports.buyFruits = function (req, res) {
             })
           }else {
             //response.writeHead(404, {"Content-Type": "application/json"});
-            return res.status(401).send(JSON.stringify({code:404, message:"Invalid parameters"}));
+            return res.status(401).send({code:404, message:"Invalid parameters"});
             //response.end();
           }
         }
         //Invalid session
         else {
-             return res.status(401).send(JSON.stringify({code:401, message: "Invalid session"}));
+             return res.status(401).send({code:401, message: "Invalid session"});
 
         }
       });
     }
     else
     {
-       return res.status(500).send(JSON.stringify({code:500, message:"Internal server error(gratz)"}));
+       return res.status(500).send({code:500, message:"Internal server error(gratz)"});
     }
   });
 }

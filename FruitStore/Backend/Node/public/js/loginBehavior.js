@@ -23,17 +23,23 @@ $('#btnLogin').click(function(event){
           data: jsonCredentials,
           beforeSend: function(){
           },
+
           //success case
           success: function (data) {
 
             hideProgress();
             //pass data to JSON
-             data = JSON.parse(data);
+            data = JSON.parse(data);
+
+            console.log(data);
+            createCookie("username", $('#username').val());
+            createCookie("userId",data.userId,2);
+            createCookie("sessionId", data.token,2);
 
              //check the role and redirect depending on it
              if (data.role == 2)
              {
-               window.location = "/index.html";
+               window.location = "/fruits.html";
              }
              else if (data.role == 1){
                window.location = "google.com";
@@ -45,7 +51,7 @@ $('#btnLogin').click(function(event){
             //pass to JSON
            var error = JSON.stringify(eval('('+jqXHR.responseText+')'));
            error = JSON.parse(error);
-           sweetAlert("Unathorized", "error.message", "error");
+           sweetAlert("Unathorized", error.message, "error");
            //alert(error.message);
           }
        });
@@ -75,14 +81,14 @@ $('#btnLogin').click(function(event){
    //UI Methods
    function showProgress()
    {
-     $(".container").fadeOut(2000, function() {
-       $(".preload").fadeIn(1000);
+     $(".container").fadeOut(0, function() {
+       $(".preload").fadeIn(0);
      });
    }
 
    function hideProgress()
    {
-     $(".preload").fadeOut(2000, function() {
-       $(".container").fadeIn(1000);
+     $(".preload").fadeOut(0, function() {
+       $(".container").fadeIn(0);
      });
    }
