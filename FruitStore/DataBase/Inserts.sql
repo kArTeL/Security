@@ -11,9 +11,13 @@ INSERT INTO session(uuid,user) VALUES("23140328424",1);
 
 
 -- INSERT Fruits
-INSERT INTO fruit(name, cost, quantity) VALUES("Manzana", 5,10);
-INSERT INTO fruit(name, cost, quantity) VALUES("Pera", 1,2);
-INSERT INTO fruit(name, cost, quantity) VALUES("Uva", 2, 1);
+INSERT INTO fruit(name,description, imageURL, cost, quantity) VALUES("Manzana","Deliciosa manzana que ayuda para tu salud, cosechada por agricultores costarricenses.","http://i.imgur.com/Mljgbms.png?1",  5,10);
+
+INSERT INTO fruit(name,description, imageURL, cost, quantity) VALUES("Banano","Las bananas, sin dudas, que están entre las frutas más ricas, sino es la más rica. No sólo es rica sino que es súper sana, contiene azúcares naturales, ofrece fibra y energías, instantáneamente.","http://pngimg.com/upload/banana_PNG845.png",  1,20);
+
+INSERT INTO fruit(name,description, imageURL, cost, quantity) VALUES("Pera","La pera es cosechada por los agricultores costarricenses en diversas zonas del país, es saludable comer una por lo menos una vez al día", "http://pngimg.com/upload/pear_PNG3466.png", 3,2);
+
+INSERT INTO fruit(name,description, imageURL, cost, quantity) VALUES("Uva", "Delisiosas uvas para disfrutar en familiar","http://pngimg.com/upload/grape_PNG2982.png",2, 1);
 
 
 

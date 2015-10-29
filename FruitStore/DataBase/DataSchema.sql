@@ -18,8 +18,11 @@ CREATE TABLE user  (
 CREATE TABLE fruit (
   id INT NOT NULL AUTO_INCREMENT,
   name  VARCHAR(22) NOT NULL,
+  description TEXT NOT NULL,
+  imageURL TEXT NOT NULL,
   cost FLOAT NOT NULL,
   quantity INT NOT NULL,
+
 
   PRIMARY KEY(id)
 

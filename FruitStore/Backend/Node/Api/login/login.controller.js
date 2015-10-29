@@ -34,7 +34,7 @@ exports.index = function(req, res) {
           //The user exist in data base so go ahead
           if (!error) {
              //generar el uuid
-             res.send(JSON.stringify(credential));
+             res.send(credential);
           } else {
             return res.status(401).send(JSON.stringify(error));
           }
@@ -45,7 +45,7 @@ exports.index = function(req, res) {
       }
     });
   } else {
-    return res.status(401).send(JSON.stringify({code: 404, message:"invalid credentials"}));
+    return res.status(401).send({code: 404, message:"invalid credentials"});
       res.sendfile(app.get('appPath') + '/login.html');
   }
 };

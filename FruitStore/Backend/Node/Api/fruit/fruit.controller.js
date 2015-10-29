@@ -55,6 +55,8 @@
           }
         });
   };
+
+  //Method need a post like this {creditcard: "" , userId: "",  products: [{fruitId:"", quantity: 2}]}
 exports.buyFruits = function (req, res) {
   var json = req.body;
   connection.connection(function (err, conn) {

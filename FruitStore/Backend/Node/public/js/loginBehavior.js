@@ -29,7 +29,7 @@ $('#btnLogin').click(function(event){
 
             hideProgress();
             //pass data to JSON
-            data = JSON.parse(data);
+            //data = JSON.parse(data);
 
             console.log(data);
             createCookie("username", $('#username').val());
@@ -51,6 +51,7 @@ $('#btnLogin').click(function(event){
             //pass to JSON
            var error = JSON.stringify(eval('('+jqXHR.responseText+')'));
            error = JSON.parse(error);
+           //console.log(jqXHR);
            sweetAlert("Unathorized", error.message, "error");
            //alert(error.message);
           }
@@ -77,18 +78,4 @@ $('#btnLogin').click(function(event){
       // alert("Password is required");
      }
      return returnValue;
-   }
-   //UI Methods
-   function showProgress()
-   {
-     $(".container").fadeOut(0, function() {
-       $(".preload").fadeIn(0);
-     });
-   }
-
-   function hideProgress()
-   {
-     $(".preload").fadeOut(0, function() {
-       $(".container").fadeIn(0);
-     });
    }
