@@ -52,7 +52,7 @@ $('#btnLogin').click(function(event){
            var error = JSON.stringify(eval('('+jqXHR.responseText+')'));
            error = JSON.parse(error);
            //console.log(jqXHR);
-           sweetAlert("Unathorized", error.message, "error");
+           sweetAlert("No autorizado", error.message, "error");
            //alert(error.message);
           }
        });
@@ -67,14 +67,14 @@ $('#btnLogin').click(function(event){
      if (!$('#username').val())
      {
        returnValue = false;
-       sweetAlert("Oops...", "Username is required", "error");
+       sweetAlert("Oops...", "El username es requerido", "error");
        //alert("Username is required");
      }
      else
      if (!$('#password').val())
      {
        returnValue = false;
-       sweetAlert("Oops...", "Password is required", "error");
+       sweetAlert("Oops...", "Contraseña requerida", "error");
       // alert("Password is required");
      }
      return returnValue;

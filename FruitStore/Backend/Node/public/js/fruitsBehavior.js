@@ -10,7 +10,7 @@ var cart = {userId:"", token:"",products:[],creditcard:""};
 $(document).ready(function(){
 //swal({   title: "Error!",   text: "Here's my error message!",   type: "error",   confirmButtonText: "Cool" });
   var currentUsername = getCookie("username");
-  var signedinasText = "Signed in as "+ currentUsername;
+  var signedinasText = "Bienvenido "+ currentUsername;
   var userId = getCookie("userId");
   cart.userId = userId;
   $("#usernameLabel").text(signedinasText);
