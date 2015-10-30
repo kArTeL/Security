@@ -2,6 +2,7 @@
 //{id, name, cost}
 
 var fruits;
+
 //Method need a post like this {creditcard: "" , userId: "",  products: [{fruitId:"", quantity: 2}]}
 //we can use this variable to save the user cart
 var cart = {userId:"", token:"",products:[],creditcard:""};
@@ -38,6 +39,18 @@ var getFruits = function (){
        //data = JSON.parse(data);
 
        reloadTable(data);
+       var cartCookie = getCookie("cart");
+       console.log("cartcookiestringify: " + cartCookie);
+       cartCookie = JSON.parse(cartCookie);
+       console.log("jsonfy : " + cartCookie);
+       if (cartCookie.products != undefined)
+       {
+         cart = cartCookie;
+         console.log(cartCookie.products);
+
+         updateUIWithCookie();
+       }
+
       },
        //Error case
       error: function (jqXHR, textStatus, errorThrown) {
@@ -46,6 +59,7 @@ var getFruits = function (){
        var error = JSON.stringify(eval('('+jqXHR.responseText+')'));
        error = JSON.parse(error);
        sweetAlert("Oops", error.message, "error");
+
         //alert(error.message);
      }
   });
@@ -64,7 +78,7 @@ var reloadTable = function(json)
     fruitContainer.append(
       '<div class="col-sm-6 col-md-3">'
        + '<div class="thumbnail"> <img src='  +  fruit.imageURL +'>'
-        + '<div class="caption"><h3>' + fruit.name + '</h3>'
+        + '<div class="caption"><h3>' + fruit.name + ' $' + fruit.cost +'</h3>'
           + '<p>' + fruit.description + '</p>'
           + '<p class= "paragraph-center">'
             + '<button class="btn btn-danger btn-lg" onClick="decreaseItemToCardClicked(' + fruit.id + ')">' + '-</button>'
@@ -76,8 +90,19 @@ var reloadTable = function(json)
       +'</div>'
     );
   }
+  console.log(fruits);
 }
 
+var updateUIWithCookie = function()
+{
+  for (var i = 0; i < cart.products.length ; i++)
+  {
+    var quantityId = "#fruit" +cart.products[i].id;
+    var quantityLabel = $(quantityId);
+    var fruitQuantity = cart.products[i].quantity;
+    quantityLabel.text(fruitQuantity);
+  }
+}
 //Decrease event from the UI
 var decreaseItemToCardClicked = function (fruitId)
 {
@@ -122,7 +147,9 @@ var addItemToCartClicked = function (fruitId)
   if (fruitIndexInCart == -1)
   {
     //create a product
-    var product = {fruitId:fruitId, quantity:1};
+    var fruitIndex = getFruitIndexWithId(fruitId);
+    //console.log(fruitIndex);
+    var product = {id:fruitId, quantity:1, fruit:fruits[fruitIndex]};
 
     //insert into the cart
     cart.products.push(product);
@@ -140,7 +167,7 @@ var addItemToCartClicked = function (fruitId)
     var maxQuantityForProduct = getMaxQuantityForFruit(fruitId);
 
     //if is the maximum or equal quantity of fruit
-    if (maxQuantityForProduct <= product.quantity+1)
+    if (maxQuantityForProduct >= product.quantity+1)
     {
       //increment
       product.quantity = product.quantity + 1;
@@ -160,7 +187,7 @@ var getIndexForFruitInCart = function(fruitId)
   for (var i = 0; i < cart.products.length; i++)
   {
     var fruit = cart.products[i];
-    if (fruit.fruitId == fruitId)
+    if (fruit.id == fruitId)
     {
       return i;
     }
@@ -174,12 +201,27 @@ var getMaxQuantityForFruit = function(fruitId)
   for (var i = 0; i < fruits.length; i++)
   {
     var fruit = fruits[i];
-    if (fruit.fruitId == fruitId)
+    console.log("comparing"+ fruit.id + fruitId);
+    if (fruit.id == fruitId)
     {
+      console.log("cuantity is:" + fruit.quantity);
       return fruit.quantity;
     }
   }
   return -1;
+}
+
+var getFruitIndexWithId = function(fruitId)
+{
+  for (var i = 0; i < fruits.length; i++)
+  {
+    var fruit = fruits[i];
+    if (fruit.id == fruitId)
+    {
+      return i;
+    }
+  }
+  return 0;
 }
 
 //UPdate the UI to show the quantity of fruits in cart
@@ -191,5 +233,7 @@ var changeFruitQuantityInUI = function(fruitId, quantity)
 
 var saveOrderInCoockie = function()
 {
-  createCookie("cart",cart,2);
+  createCookie("cart","",2)
+  var stringifycart = JSON.stringify(cart);
+  createCookie("cart",stringifycart,2);
 }
