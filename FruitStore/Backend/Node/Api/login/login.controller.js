@@ -50,6 +50,47 @@ exports.index = function(req, res) {
   }
 };
 
+//Logout session with id
+exports.logout = function (req, res) {
+  var json = req.body;
+  if (validateLogoutSession(json))
+  {
+    console.log(json);
+    connection.connection(function (err, conn) {
+     //UPDATE t1 SET col1 = col1 + 1;
+      conn.query("UPDATE session SET enabled = 0 where uuid= "+ mysql.escape(json.uuid), null,
+        function(error, result)
+        {
+          if (error)
+          {
+            console.log(error);
+            res.status(500).status({message:"Internal error", code:500});
+          }else {
+            res.send(result);
+          }
+      });
+
+    });
+
+  }
+  else {
+    res.status(401).send({code: 404, message:"invalid credentials"});
+  }
+
+};
+
+function validateLogoutSession(json)
+{
+  var isValid = true;
+  if (json == undefined) {
+    isValid = false;
+  }
+  else if (json['token'] == undefined || json['userId'] == undefined ) {
+    isValid = false;
+  }
+  return isValid;
+}
+
 function loginUser(conn, username, password, callback) {
    conn.query("SELECT * FROM user WHERE username = "+ mysql.escape(username) + " and password = " + mysql.escape(password) ,
       null,

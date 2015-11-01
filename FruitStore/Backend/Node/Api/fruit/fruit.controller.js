@@ -59,21 +59,28 @@
   //Method need a post like this {creditcard: "" , userId: "",  products: [{fruitId:"", quantity: 2}]}
 exports.buyFruits = function (req, res) {
   var json = req.body;
+
+
   connection.connection(function (err, conn) {
     if (!err) {
       sessionValidator.validateSession(conn,json,function (error, success) {
         //if not error
         if (!error) {
-          if (json['products'] && json['creditcard']) {
 
+
+
+          if (json['products'] && json['creditcard']) {
+            json.products = JSON.parse(json['products']);
+            console.log(json);
             fruitBuyer.buyProduct(conn,json, function(err, success) {
               if (!err) {
-                res.send(JSON.stringify({orderId:success}));
+                res.send({orderId:success});
               }else {
-                return res.status(401).send(JSON.stringify(err));
+                return res.status(401).send(err);
               }
             })
           }else {
+            console.log(json);
             //response.writeHead(404, {"Content-Type": "application/json"});
             return res.status(401).send({code:404, message:"Invalid parameters"});
             //response.end();

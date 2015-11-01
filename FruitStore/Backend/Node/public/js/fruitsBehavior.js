@@ -40,16 +40,20 @@ var getFruits = function (){
 
        reloadTable(data);
        var cartCookie = getCookie("cart");
-       console.log("cartcookiestringify: " + cartCookie);
-       cartCookie = JSON.parse(cartCookie);
-       console.log("jsonfy : " + cartCookie);
-       if (cartCookie.products != undefined)
+       if ( cartCookie != undefined && cartCookie != "" && cartCookie != "empty")
        {
-         cart = cartCookie;
-         console.log(cartCookie.products);
+         console.log("cartcookiestringify: " + cartCookie);
+         cartCookie = JSON.parse(cartCookie);
+         console.log("jsonfy : " + cartCookie);
+         if (cartCookie.products != undefined)
+         {
+           cart = cartCookie;
+           console.log(cartCookie.products);
 
-         updateUIWithCookie();
+           updateUIWithCookie();
+         }
        }
+
 
       },
        //Error case
@@ -91,6 +95,77 @@ var reloadTable = function(json)
     );
   }
   console.log(fruits);
+}
+
+var closeSession = function()
+{
+  swal({
+    title: "¿Cerrar sesión?",
+    text: "¿Realmente deseas salir de la sesión? Tu carro se borrará",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: "btn-danger",
+    cancelButtonText:"Cancelar",
+    confirmButtonText: "Cerrar sesión",
+    closeOnConfirm: false
+  },
+  function(){
+    removeSession();
+  //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+  });
+}
+
+var removeSession = function ()
+{
+  var userId = getCookie("userId");
+  var token = getCookie("sessionId");
+  if (userId !=undefined || token != undefined)
+  {
+    var credentials = {userId:userId, token:token};
+    $.ajax({
+       type: "POST",
+       url: "/api/login/logout",
+       data: credentials,
+       beforeSend: function(){
+       },
+         //success case
+       success: function (data) {
+
+         hideProgress();
+        deleteCookie("userId");
+        deleteCookie("sessionId");
+        deleteCookie("cart");
+        deleteCookie("username");
+         window.location = "/login.html";
+
+        },
+         //Error case
+        error: function (jqXHR, textStatus, errorThrown) {
+         hideProgress();
+           //pass to JSON
+         var error = JSON.stringify(eval('('+jqXHR.responseText+')'));
+         error = JSON.parse(error);
+         sweetAlert("Oops", error.message, "error");
+
+          //alert(error.message);
+       }
+    });
+  }
+  else
+  {
+    swal({   title: "Error interno",
+    text: "Ha ocurrido un error en la aplicación",
+    type: "success",
+    showCancelButton: false,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "Aceptar",
+    closeOnConfirm: false
+  }, function(){
+    window.location = "/login.html";
+    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+  });
+  }
+
 }
 
 var updateUIWithCookie = function()
@@ -201,10 +276,8 @@ var getMaxQuantityForFruit = function(fruitId)
   for (var i = 0; i < fruits.length; i++)
   {
     var fruit = fruits[i];
-    console.log("comparing"+ fruit.id + fruitId);
     if (fruit.id == fruitId)
     {
-      console.log("cuantity is:" + fruit.quantity);
       return fruit.quantity;
     }
   }

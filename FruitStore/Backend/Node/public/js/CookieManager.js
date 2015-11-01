@@ -10,6 +10,11 @@ var createCookie = function(name, value, days) {
     }
     document.cookie = name + "=" + value + expires + "; path=/";
 }
+function deleteCookie(c_name)
+{
+   createCookie(c_name,"",-1);
+
+}
 
 function getCookie(c_name) {
     if (document.cookie.length > 0) {
