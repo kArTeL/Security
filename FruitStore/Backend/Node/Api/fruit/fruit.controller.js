@@ -32,6 +32,7 @@
                        console.log(err);
                      });
                      if (!err) {
+                       console.log(results);
                         res.send(JSON.stringify(results));
                      }
                      else

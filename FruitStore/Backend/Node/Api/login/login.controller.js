@@ -55,10 +55,12 @@ exports.logout = function (req, res) {
   var json = req.body;
   if (validateLogoutSession(json))
   {
-    console.log(json);
+    //console.log(json);
     connection.connection(function (err, conn) {
      //UPDATE t1 SET col1 = col1 + 1;
-      conn.query("UPDATE session SET enabled = 0 where uuid= "+ mysql.escape(json.uuid), null,
+     console.log(json["token"]);
+
+      conn.query("UPDATE session SET enabled = 0 where uuid="+ mysql.escape(json["token"]) + "|| user =" + json["userId"], null,
         function(error, result)
         {
           if (error)
@@ -66,6 +68,8 @@ exports.logout = function (req, res) {
             console.log(error);
             res.status(500).status({message:"Internal error", code:500});
           }else {
+            console.log("not error");
+            console.log(result);
             res.send(result);
           }
       });
