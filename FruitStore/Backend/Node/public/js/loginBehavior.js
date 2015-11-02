@@ -32,17 +32,19 @@ $('#btnLogin').click(function(event){
             //data = JSON.parse(data);
 
             console.log(data);
-            createCookie("username", $('#username').val());
-            createCookie("userId",data.userId,2);
-            createCookie("sessionId", data.token,2);
+
 
              //check the role and redirect depending on it
              if (data.role == 2)
              {
+               createCookie("username", $('#username').val());
+               createCookie("userId",data.userId,2);
+               createCookie("sessionId", data.token,2);
                window.location = "/fruits.html";
              }
              else if (data.role == 1){
-               window.location = "google.com";
+               var redirectParams = "username=" + $('#username').val() + "&userId="+data.userId+ "&token="+data.token;
+               window.location = "http://localhost:8888/PHP/orders.php?"+redirectParams;
              }
           },
           //Error case

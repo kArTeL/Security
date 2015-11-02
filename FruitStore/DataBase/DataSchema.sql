@@ -34,6 +34,7 @@ CREATE TABLE transaction (
   user   INT NOT NULL REFERENCES user(id),
   total_cost FLOAT DEFAULT 0.0,
   creditCardNumber VARCHAR(20),
+  state INT DEFAULT 0,
   PRIMARY KEY(id)
 );
 
