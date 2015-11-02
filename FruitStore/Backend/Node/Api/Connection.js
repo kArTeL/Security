@@ -10,8 +10,8 @@ module.exports = {
     var pool = mysql.createPool({
       host     : 'localhost',
       port : 3307,
-      user     : 'root',
-      password : '',
+      user     : 'frutoso',
+      password : 'frutoso',
       database : 'fruits'
     });
 

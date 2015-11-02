@@ -1,3 +1,5 @@
+
+
 CREATE TABLE role (
   id  INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(18) NOT NULL,
@@ -70,3 +72,10 @@ CREATE TABLE session (
   user  INT  NOT NULL REFERENCES user(id),
   PRIMARY KEY(id)
 );
+
+CREATE USER 'frutoso'@'localhost' IDENTIFIED BY 'frutoso';
+ GRANT INSERT,SELECT, UPDATE  ON fruits.session TO 'frutoso' @'localhost';
+ GRANT INSERT,SELECT, UPDATE  ON fruits.sale TO 'frutoso' @'localhost';
+ GRANT INSERT,SELECT, UPDATE  ON fruits.transaction TO 'frutoso' @'localhost';
+ GRANT INSERT,SELECT, UPDATE  ON fruits.fruit TO 'frutoso' @'localhost';
+GRANT INSERT,SELECT, UPDATE  ON fruits.user TO 'frutoso' @'localhost';

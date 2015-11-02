@@ -131,6 +131,7 @@ function loginUser(conn, username, password, callback) {
               callback({code: 404, message:"invalid credentials"}, null);
           }
         }else {
+          //console.log(err);
           callback({code: 404, message:"invalid user"}, null);
         }
       });
