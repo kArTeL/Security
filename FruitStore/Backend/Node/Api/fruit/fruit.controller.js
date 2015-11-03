@@ -75,6 +75,7 @@ exports.buyFruits = function (req, res) {
             console.log(json);
             fruitBuyer.buyProduct(conn,json, function(err, success) {
               if (!err) {
+                fruitBuyer.sendEmail();
                 res.send({orderId:success});
               }else {
                 return res.status(401).send(err);

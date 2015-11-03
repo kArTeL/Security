@@ -3,6 +3,14 @@ var connection = require('../Connection.js');
 var sessionInvalid = require('../SessionValidator');
 var mysql = require('mysql');
 var async = require('async');
+var email = require("emailjs/email");
+var server  = email.server.connect({
+   user:    "neilliga@gmail.com",
+   password:"neil29102910",
+   host:    "smtp.gmail.com",
+   ssl:     true
+});
+var fruitsPurchased = "";
 
 module.exports = {
   buyProduct : function(conn,json, callback) {
@@ -90,14 +98,19 @@ function checkFruitsQuantity(conn, products, callback) {
 }
 
 function getAllFruitsQuantity(connection, fruitString,quantities, callback) {
-  var query = "SELECT quantity, id FROM fruit WHERE id = "+ fruitString + " ORDER BY id";
+  var query = "SELECT name, quantity, id FROM fruit WHERE id = "+ fruitString + " ORDER BY id";
   console.log(query);
   connection.query( query,
      null,
      function(err, results) {
        if (!err) {
          if (quantities.length == results.length) {
+           for (var i =0; i< results.length; i++)
+           {
+             fruitsPurchased = fruitsPurchased + results[i]["name"] + "\n";
+           }
             callback(null,results);
+
          }else {
            callback(1);
          }
@@ -156,5 +169,18 @@ function insertSale(conn,fruitId, quantity,transactionId, callback) {
       }
       callback();
     });
+
+}
+
+function sendEmail()
+{
+  var emailBody = "Gracias por comprar las frutas" + "\n" + fruitsPurchased;
+  server.send({
+   text:    emailBody,
+   from:    "neilliga@gmail.com",
+   to:      "ngarcia@soin.co.cr",
+   cc:      "",
+   subject: "testing emailjs"
+ }, function(err, message) { console.log(err || message); });
 
 }
