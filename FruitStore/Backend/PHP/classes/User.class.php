@@ -16,40 +16,37 @@ class User {
 	function __construct($data) {
 		$this->id = (isset($data['id'])) ? $data['id'] : "";
 		$this->username = (isset($data['username'])) ? $data['username'] : "";
-		$this->hashedPassword = (isset($data['password'])) ? $data['password'] : "";
 		$this->email = (isset($data['email'])) ? $data['email'] : "";
 	}
 
 	public function save($isNewUser = false) {
 		//create a new database object.
 		$db = new DB();
-		
+
 		//if the user is already registered and we're
 		//just updating their info.
 		if(!$isNewUser) {
 			//set the data array
 			$data = array(
 				"username" => "'$this->username'",
-				"password" => "'$this->hashedPassword'",
 				"email" => "'$this->email'"
 			);
-			
+
 			//update the row in the database
 			$db->update($data, 'user', 'id = '.$this->id);
 		}else {
 		//if the user is being registered for the first time.
 			$data = array(
 				"username" => "'$this->username'",
-				"password" => "'$this->hashedPassword'",
 				"email" => "'$this->email'"
 			);
-			
+
 			$this->id = $db->insert($data, 'user');
 			$this->joinDate = time();
 		}
 		return true;
 	}
-	
+
 }
 
 ?>
