@@ -8,10 +8,10 @@ var mysql      = require('mysql');
 module.exports = {
   connection : function(callback) {
     var pool = mysql.createPool({
-      host     : 'orificio.ecci.ucr.ac.cr',
+      host     : 'localhost',
       port : 3306,
-      user     : 'usuario10',
-      password : '7yJW2Zk6b8',
+      user     : 'root',
+      password : '',
       database : 'usuario10'
     });
 
