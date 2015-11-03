@@ -3,6 +3,15 @@ var connection = require('../Connection.js');
 var sessionInvalid = require('../SessionValidator');
 var mysql = require('mysql');
 var async = require('async');
+var nodemailer = require('nodemailer');
+//
+// var server  = email.server.connect({
+//    user:    "neilliga@gmail.com",
+//    password:"neil29102910",
+//    host:    "smtp.gmail.com",
+//    ssl:     true
+// });
+var fruitsPurchased = "";
 
 module.exports = {
   buyProduct : function(conn,json, callback) {
@@ -24,6 +33,8 @@ module.exports = {
                        var transactionId =  result.insertId;
                       //  (products, transactionId, block)
                        insertSales(conn,products,transactionId, function() {
+                         console.log("sending email");
+                         sendEmail();
                          callback(null,transactionId);
                        })
                        //callback(null,true);
@@ -90,14 +101,19 @@ function checkFruitsQuantity(conn, products, callback) {
 }
 
 function getAllFruitsQuantity(connection, fruitString,quantities, callback) {
-  var query = "SELECT quantity, id FROM fruit WHERE id = "+ fruitString + " ORDER BY id";
+  var query = "SELECT name, quantity, id FROM fruit WHERE id = "+ fruitString + " ORDER BY id";
   console.log(query);
   connection.query( query,
      null,
      function(err, results) {
        if (!err) {
          if (quantities.length == results.length) {
+           for (var i =0; i< results.length; i++)
+           {
+             fruitsPurchased = fruitsPurchased + results[i]["name"] + "\n";
+           }
             callback(null,results);
+
          }else {
            callback(1);
          }
@@ -156,5 +172,37 @@ function insertSale(conn,fruitId, quantity,transactionId, callback) {
       }
       callback();
     });
+
+}
+
+function sendEmail()
+{
+  var emailBody = "Gracias por comprar las frutas" + "\n" + fruitsPurchased;
+  var transporter = nodemailer.createTransport({
+    host: '192.168.122.2',
+    auth: {
+        user: 'usuario10',
+        pass: '7yJW2Zk6b8'
+    }
+  });
+  transporter.sendMail({
+    from: 'usuario10a@orificio.ecci..ucr.ac.cr',
+    to: 'usuario10b@orificio.ecci.ucr.ac.cr',
+    subject: 'Nueva compra hecha a Fruities',
+    text: emailBody
+  }, function(error, info){
+    if(error){
+        return console.log(error);
+    }
+    console.log('Message sent: ' + info.response);
+  });
+
+ //  server.send({
+ //   text:    emailBody,
+ //   from:    "neilliga@gmail.com",
+ //   to:      "ngarcia@soin.co.cr",
+ //   cc:      "",
+ //   subject: "testing emailjs"
+ // }, function(err, message) { console.log(err || message); });
 
 }
