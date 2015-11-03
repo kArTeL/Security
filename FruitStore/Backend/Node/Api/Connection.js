@@ -8,11 +8,11 @@ var mysql      = require('mysql');
 module.exports = {
   connection : function(callback) {
     var pool = mysql.createPool({
-      host     : 'localhost',
-      port : 3307,
-      user     : 'frutoso',
-      password : 'frutoso',
-      database : 'fruits'
+      host     : 'orificio.ecci.ucr.ac.cr',
+      port : 3306,
+      user     : 'usuario10',
+      password : '7yJW2Zk6b8',
+      database : 'usuario10'
     });
 
 
