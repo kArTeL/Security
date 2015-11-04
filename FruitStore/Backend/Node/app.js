@@ -31,6 +31,7 @@ app.use(express.static(__dirname + '/public'));
 // Start server
 server.listen(6010, function () {
   console.log('Express server listening on %d, in %s mode', 6020, app.get('env'));
+
 });
 
 // Expose app

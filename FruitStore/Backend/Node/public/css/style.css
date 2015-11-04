@@ -9,7 +9,12 @@ body{
     padding-left: 30px;
     padding-right: 30px;
   }
+.topmargin-default {
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
 
+}
 .signed-in-as-paragraph {
   padding-left: 10px;
   padding-right: 10px;
