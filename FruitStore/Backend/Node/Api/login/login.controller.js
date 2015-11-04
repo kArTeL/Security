@@ -41,7 +41,7 @@ exports.index = function(req, res) {
           //console.log(response);
         })
       }else  {
-        console.log("is undefined");
+        res.status(500).send({code: 500, message:"Internal error"});
       }
     });
   } else {
@@ -58,21 +58,27 @@ exports.logout = function (req, res) {
     //console.log(json);
     connection.connection(function (err, conn) {
      //UPDATE t1 SET col1 = col1 + 1;
-     console.log(json["token"]);
+     if (!err)
+     {
+       console.log(json["token"]);
 
-      conn.query("UPDATE session SET enabled = 0 where uuid="+ mysql.escape(json["token"]) + "|| user =" + json["userId"], null,
-        function(error, result)
-        {
-          if (error)
+        conn.query("UPDATE session SET enabled = 0 where uuid="+ mysql.escape(json["token"]) + "|| user =" + json["userId"], null,
+          function(error, result)
           {
-            console.log(error);
-            res.status(500).status({message:"Internal error", code:500});
-          }else {
-            console.log("not error");
-            console.log(result);
-            res.send(result);
-          }
-      });
+            if (error)
+            {
+              console.log(error);
+              res.status(500).status({message:"Internal error", code:500});
+            }else {
+              console.log("not error");
+              console.log(result);
+              res.send(result);
+            }
+        });
+     }else {
+         res.status(500).status({message:"Internal error", code:500});
+     }
+
 
     });
 

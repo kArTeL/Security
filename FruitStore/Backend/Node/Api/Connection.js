@@ -8,9 +8,9 @@ var mysql      = require('mysql');
 module.exports = {
   connection : function(callback) {
     var pool = mysql.createPool({
-      host     : 'orificio.ecci.ucr.ac.cr',
+      host     : 'localhost',
       port : 3306,
-      user     : 'usuario10',
+      user     : 'usuario10@localhost',
       password : '7yJW2Zk6b8',
       database : 'usuario10'
     });
@@ -35,6 +35,7 @@ module.exports = {
         //return conn;
       }
       else {
+        console.log(err);
         callback(err, null);
       }
 
