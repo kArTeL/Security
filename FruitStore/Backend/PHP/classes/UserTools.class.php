@@ -59,6 +59,16 @@ class UserTools {
 			return true;
 		}
 	}
+
+	public function closeSession($userId, $token)
+	{
+		// UPDATE session SET enabled = 0 where uuid="+ mysql.escape(json["token"]) + "|| user =" + json["userId"]
+		 $result = mysql_query("update session set enabled = 0 where uuid= '$token' || user = '$userId'");
+		 $this->logout();
+		 return true;
+	}
+
+
 	//get a user
 	//returns a User object. Takes the users id as an input
 	public function get($id)

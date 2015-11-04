@@ -2,9 +2,19 @@
 
 require_once 'includes/global.inc.php';
 
-$userTools = new UserTools();
-$userTools->logout();
+$userId = $_GET['userId'];
+$token = $_GET['token'];
+// echo 'entre like a boss' ;
+// echo $userId;
+// echo $token;
 
-header("Location: index.php");
+$userTools = new UserTools();
+$userTools->closeSession($userId,$token);
+
+header("Location: http://127.0.0.1:6010/login.html");	
+
+
+
+
 
 ?>

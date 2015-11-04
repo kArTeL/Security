@@ -72,9 +72,13 @@ exports.buyFruits = function (req, res) {
 
           if (json['products'] && json['creditcard']) {
             json.products = JSON.parse(json['products']);
+            json.products .sort(function(a, b) {
+                return parseFloat(a.fruitId) - parseFloat(b.fruitId);
+            });
             console.log(json);
             fruitBuyer.buyProduct(conn,json, function(err, success) {
               if (!err) {
+
                 res.send({orderId:success});
               }else {
                 return res.status(401).send(err);

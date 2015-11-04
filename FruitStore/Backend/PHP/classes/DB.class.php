@@ -1,10 +1,11 @@
 <?php
 
 class DB {
-	protected $db_name = 'usuario10';
-	protected $db_user = 'usuario10';
-	protected $db_pass = '7yJW2Zk6b8';
-	protected $db_host = 'orificio.ecci.ucr.ac.cr:3306';
+
+	protected $db_name = 'fruits';
+	protected $db_user = 'root';
+	protected $db_pass = '';
+	protected $db_host = '127.0.0.1:3307';
 
 	//open a connection to the database. Make sure this is called
 	//on every page that needs to use the database.

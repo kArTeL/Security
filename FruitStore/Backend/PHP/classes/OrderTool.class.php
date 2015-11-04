@@ -18,6 +18,23 @@ class OrderTool {
     return $returnValue;
 
   }
+
+   public function getOrder($orderId)
+  {
+    $returnValue = array();
+    $result =  mysql_query("select f1.name, s1.quantity, f1.imageURL from user u1, transaction t1, fruit f1, sale s1 where t1.id = '$orderId' and t1.id = s1.transaction and s1.fruit = f1.id and t1.user = u1.id");
+
+    while($row =  mysql_fetch_assoc($result))
+    {
+      // $order = new Order($row);
+      array_push($returnValue,$row);
+
+    }
+
+    return $returnValue;
+
+  }
+
 }
 
 ?>

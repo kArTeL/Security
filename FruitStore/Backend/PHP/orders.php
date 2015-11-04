@@ -64,12 +64,17 @@ else {
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button class="navbar-text navbar-right btn btn-default closeButton" id = "closeSessionLabel" onClick="closeSession()">Cerrar sesión </button>
+        <!-- <form action="./logout.php?userId='<?php echo $userId; ?>'&token='<?php echo $token; ?>'"> -->
+        <!--   <input class = "navbar-text navbar-right btn btn-default closeButton" type="submit" value="Cerrar sesion">
+        </form> -->
+        <button class="navbar-text navbar-right btn btn-default closeButton" id = "close-session-button" onClick="logout('<?php echo $userId;?>','<?php echo $token;?>' )" >Cerrar sesión </button>
           <p class="navbar-text navbar-right signed-in-as-paragraph" id = "usernameLabel" >Bienvenido <? echo $username ?></p>
 
       </div> <!-- navbar-header-->
     </div> <!-- container-fluid-->
   </nav>
+
+
 
 	<div class="container">
 	<div class="row">
@@ -90,7 +95,7 @@ else {
 
 			  <? foreach ($orders as $order) : ?>
      			<tr>
-       			<td><? echo $order->id ?></td>
+           <td><?php echo('<a href="detail.php?order='.$order->id.'&userId='.$userId.'&token='.$token.' ">'.$order->id.'</a>');?></td>
 						<td><? echo $order->saleDate ?></td>
 						<td><? echo '$'.$order->totalCost ?></td>
 							<td><? echo $order->creditCardNumber ?></td>
@@ -142,6 +147,23 @@ else {
             <td><span class="label label-primary">Completed</span></td>
           </tr> -->
         </tbody>
+        <tfoot>
+            <tr class="visible-xs">
+              <td class="text-center" id="total-mobile"><strong>Total 1.99</strong></td>
+            </tr>
+              <tr>
+                <td><a href="#" class="btn btn-warning" onclick= "history.back()"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td colspan="1" class="hidden-xs"></td>
+
+                <td class="hidden-xs text-center" id="total-wide"><strong>Total $1.99</strong></td>
+                <td><input type="text" class="form-control" name="card-number" id="card-number" placeholder="Debit/Credit Card Number"></td>
+                <td><a  class="btn btn-success btn-block" onclick="placeOrderEvent()">Ordenar <i class="fa fa-angle-right"></i></a></td>
+              </tr>
+            <tr>
+
+
+            </tr>
+          </tfoot>
       </table>
     </div>
 	</div>
