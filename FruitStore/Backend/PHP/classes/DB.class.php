@@ -2,9 +2,9 @@
 
 class DB {
 	protected $db_name = 'usuario10';
-	protected $db_user = 'root';
+	protected $db_user = 'usuario10';
 	protected $db_pass = '';
-	protected $db_host = 'localhost:3306';
+	protected $db_host = 'localhost';
 
 	//open a connection to the database. Make sure this is called
 	//on every page that needs to use the database.
