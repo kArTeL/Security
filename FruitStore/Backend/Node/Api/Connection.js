@@ -13,11 +13,15 @@ module.exports = {
       // user     : 'usuario10@localhost',
       // password : '7yJW2Zk6b8',
       // database : 'usuario10'
-      //   host     : 'localhost',
-        port : 3307,
-        user     : 'root',
-        password : '',
-        database : 'fruits'
+        host     : '127.0.0.1',
+        user     : 'usuario10',
+        password : '7yJW2Zk6b8',
+        database : 'usuario10'
+
+        // protected $db_name = 'usuario10';
+        // protected $db_user = 'usuario10';
+        // protected $db_pass = '7yJW2Zk6b8';
+        // protected $db_host = '127.0.0.1';
     });
 
 
